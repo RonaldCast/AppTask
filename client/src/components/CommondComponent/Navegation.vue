@@ -5,18 +5,31 @@
         <a class="navbar-brand">TasksOmbe</a>
       </div>
       <div class="row">
-        <form class="form-inline my-2 my-lg-0 col-5">
-          <input
-            class="form-control mr-sm-2"
-            type="search"
-            placeholder="Search tasks"
-            aria-label="Search"
-            v-model="searchTask"
-          >
-        </form>
-        <div class="info-user col-7">
-            <p class="mt-3">{{emailUser}}</p>
-            <p class="ml-4 mt-3 sign-off">Sign off</p>
+        <div class="info-user col-12">
+          <ul class="mt-2">
+
+            <router-link 
+              :to="{name: 'task'}" 
+              exact  
+              class="mt-3 mr-3" 
+              tag="li"  
+              active-class="active">
+              <a>Tasks</a>
+            </router-link>
+
+            <router-link 
+              :to="{name: 'user'}" 
+              class="mt-3" 
+              tag="li" 
+              active-class="active">
+              <a>{{emailUser}}</a>
+            </router-link>
+            
+            <li class="sign-off ml-2">
+              <a>Sign off</a>  
+            </li>
+
+          </ul>
         </div>
       </div>
     </nav>
@@ -34,10 +47,16 @@ export default {
     ],
     data(){
         return{
-            searchTask: ''
+            searchTask: '',
+            routerActual: ''
         }
     }, 
-    
+    methods: {
+      proof(){
+        console.log(this.$route)
+      }
+    },
+
 
 };
 </script>
@@ -61,13 +80,26 @@ export default {
     display: flex;
     
 }
-.info-user p {
+.info-user a{
+  color: #fff;
+  text-decoration: none
+}
+.info-user p,.info-user a  {
     cursor: pointer;
     transition: color 0.2s ease;
 
 }
-.info-user p:hover{
+.info-user p:hover, .info-user a:hover{
     color:rgba(255, 255, 255,0.5);
+}
+
+.active a{
+  color:rgba(255, 255, 255,0.5);
+}
+
+.info-user li{
+  display: inline;
+  list-style: none;
 }
 
 </style>

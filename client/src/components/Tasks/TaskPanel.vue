@@ -2,9 +2,9 @@
   <div class="container mt-4">
       <div class="row">
           <div class="col-md-3">
-            <div v-for="tasks in getAllTask[0]" v-bind:key="tasks.id">
-              <TaskCard :task="tasks"></TaskCard> 
-            </div>
+            <template v-for="tasks in getAllTask[0]" >
+              <TaskCard :task="tasks" v-bind:key="tasks.id"></TaskCard> 
+            </template>
           </div>
            <div class="col-md-3">
             <div v-for="tasks in getAllTask[1]" v-bind:key="tasks.id">
@@ -36,8 +36,7 @@ export default {
 
   data() {
     return {
-      listAllArray: [],
-      ori: ""
+      listAllArray: []
     };
   },
   methods: {},
@@ -45,30 +44,24 @@ export default {
     getAllTask() {
      
       let arrayGrid = [];
-      let counter = 0;
       this.listAllArray = this.listTask;
       let countArray = this.listAllArray.length;
       let divide = Math.floor(countArray / 4) ;
-      let num = countArray;
+      let startArray = 0
+      let endArray =  divide
 
-      while (true) {
-        if (counter == 3) {
-          arrayGrid[counter] = this.listAllArray ;
-          console.log("if",arrayGrid[counter])
-          break;
-        } else {
-
-          arrayGrid[counter] = this.listAllArray.splice(0, divide);
-          console.log("else",arrayGrid[counter])
-          num = num - divide;
-        }
-        counter++;
+      for(let i = 0; i < 4; i++){
+        arrayGrid[i] = this.listAllArray.slice(startArray, endArray);
+        startArray = endArray;
+        endArray += divide 
+        
       }
-      console.log("EndConsole", arrayGrid)
+
       return arrayGrid;
     }
   }
 };
 </script>
-<style>
+<style scoped>
+
 </style>
