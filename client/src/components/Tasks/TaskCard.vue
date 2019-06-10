@@ -1,12 +1,12 @@
 <template>
     <div>
-        <div class="card rounded mt-3">
+        <div class="task-card card rounded mt-3">
              <input type="text" class="card-header"  v-model="title">
              <!-- <textarea ref="textId" name="" class="card-body"  v-model="description"></textarea> -->
             <div class="card-body" >
                 <p >{{description}}</p>
             </div>
-            <div class="card-footer">
+            <div class="card-footer mt-2">
              <div class="">
                 <span class="badge badge-primary">{{dateStart}}</span>
                  <span class="badge badge-primary ml-1">{{dateEnd}}</span>
@@ -34,8 +34,7 @@ export default {
     },
     mounted() {
         this.fillCardTask()
-        window.addEventListener('loadend',this.resizeTextarea())
-        this.resizeTextarea()
+
     },
     methods: {
         fillCardTask(){
@@ -45,16 +44,7 @@ export default {
             this.dateEnd = this.task.dateEnd
             this.tag = this.task.tag
         },
-        resizeTextarea(){
-            let textarea =  this.$refs['textId']
-            let scroll = textarea.scrollHeight
-            textarea.style.cssText = `height:${scroll}px;`
-            window.addEventListener('resize',function(){
-                scroll = textarea.scrollHeight
-                textarea.style.cssText = `height:${scroll}px;`
-            })
-                
-        }
+
     },
 
 }
@@ -85,7 +75,13 @@ export default {
         outline: none;
         background-color: #fff;
     }
-    textarea.card-body{
+
+    .task-card .card-body{
+        max-height: 500px; 
+        overflow: hidden;
+    }
+
+    /* textarea.card-body{
         padding: 5px 10px;
         display: block;
         overflow: none;
@@ -97,11 +93,12 @@ export default {
         overflow-y: hidden;
         outline: none;
         -webkit-appearance: none;
-    }
+    } */
 
-    textarea {  
-  /* box-sizing: padding-box; */
-  overflow:hidden;
+    /* textarea {  
+        box-sizing: padding-box; 
+        overflow:hidden; 
+    } */
 
-}
+
 </style>

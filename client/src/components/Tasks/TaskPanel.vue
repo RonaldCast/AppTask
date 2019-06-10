@@ -16,6 +16,11 @@
               <TaskCard :task="tasks"></TaskCard> 
             </div>
           </div>
+           <div class="col-md-3">
+            <div v-for="tasks in getAllTask[3]" v-bind:key="tasks.id">
+              <TaskCard :task="tasks"></TaskCard> 
+            </div>
+          </div>
       </div>
   </div>
 </template>
@@ -47,16 +52,19 @@ export default {
       let num = countArray;
 
       while (true) {
-        if (num < divide) {
+        if (counter == 3) {
           arrayGrid[counter] = this.listAllArray ;
+          console.log("if",arrayGrid[counter])
           break;
         } else {
-          console.log("h");
+
           arrayGrid[counter] = this.listAllArray.splice(0, divide);
+          console.log("else",arrayGrid[counter])
           num = num - divide;
         }
         counter++;
       }
+      console.log("EndConsole", arrayGrid)
       return arrayGrid;
     }
   }
