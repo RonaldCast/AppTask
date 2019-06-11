@@ -1,60 +1,60 @@
 {
     "tasks":[
         {
-            "title": "Learn word process",
+            "title": "Learn process",
             "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui ut pariatur neque at temporibus quae natus aliquid voluptates illo, nostrum magnam. Vel labore ea non quaerat similique dolorem veritatis voluptatem?Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui ut pariatur neque at temporibus quae natus aliquid voluptates illo, nostrum magnam. Vel labore ea non quaerat similique dolorem veritatis voluptatem?",
             "tag": "Low",
-            "dateStart": "6/2/2019",
-            "dateEnd": "6/3/2019"
+            "dateStart": "2019-06-02",
+            "dateEnd": "2019-06-03"
         },
         {
             "title": "Learn word process",
             "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
             "tag": "Low",
-            "dateStart": "6/2/2019",
-            "dateEnd": "6/3/2019"
+            "dateStart": "2019-06-02",
+            "dateEnd": "2019-06-03"
         },
         {
             "title": "Learn word process",
             "description": "Lorem ipsum dolor sit amet consectetur adipisicing.  Qui ut pariatur neque at temporibus quae natus aliquid voluptates illo, nostrum magnam. Vel labore ea non quaerat similique dolorem veritatis voluptatem?",
-            "tag": "Low",
-            "dateStart": "6/2/2019",
-            "dateEnd": "6/3/2019"
+            "tag": "Medium",
+             "dateStart": "2019-06-02",
+             "dateEnd": "2019-06-03"
         },
         {
             "title": "Learn word process",
             "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit.Qui ut pariatur neque at temporibus quae natus aliquid voluptates illo, nostrum magnam. Vel labore ea non quaerat similique dolorem veritatis voluptatem? Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui ut pariatur neque at temporibus quae natus aliquid voluptates illo, nostrum magnam. Vel labore ea non quaerat similique dolorem veritatis voluptatem?",
-            "tag": "Low",
-            "dateStart": "6/2/2019",
-            "dateEnd": "6/3/2019"
+            "tag": "Medium",
+             "dateStart": "2019-06-02",
+             "dateEnd": "2019-06-03"
         },
         {
             "title": "Learn word process",
             "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit.  Lorem ipsum dolor sit amet consectetur adipisicing elit.Qui ut pariatur neque at temporibus quae natus aliquid voluptates illo, nostrum magnam. Vel labore ea non quaerat similique dolorem veritatis voluptatem?",
-            "tag": "Low",
-            "dateStart": "6/2/2019",
-            "dateEnd": "6/3/2019"
+            "tag": "High",
+             "dateStart": "2019-06-02",
+             "dateEnd": "2019-06-03"
         },
         {
             "title": "Learn word process",
             "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui ut pariatur neque at temporibus quae natus aliquid voluptates illo, nostrum magnam. Vel labore ea non quaerat similique dolorem veritatis voluptatem?",
             "tag": "Low",
-            "dateStart": "6/2/2019",
-            "dateEnd": "6/3/2019"
+            "dateStart": "2019-06-02",
+            "dateEnd": "2019-06-03"
         },
         {
             "title": "Learn word process",
             "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit.vLorem ipsum dolor sit amet consectetur adipisicing elit. Qui ut pariatur neque at temporibus quae natus aliquid voluptates illo, nostrum magnam. Vel labore ea non quaerat similique dolorem veritatis voluptatem?",
             "tag": "Low",
-            "dateStart": "6/2/2019",
-            "dateEnd": "6/3/2019"
+            "dateStart": "2019-06-02",
+            "dateEnd": "2019-06-03"
         },
         {
             "title": "Learn word process",
             "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui ut pariatur neque at temporibus quae natus aliquid voluptates illo, nostrum magnam. Vel labore ea non quaerat similique dolorem veritatis voluptatem?",
             "tag": "Low",
-            "dateStart": "6/2/2019",
-            "dateEnd": "6/3/2019"
+            "dateStart": "2019-06-02",
+            "dateEnd": "2019-06-03"
         }
 
     ]
