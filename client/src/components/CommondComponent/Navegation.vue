@@ -2,7 +2,7 @@
   <div>
     <nav class="navbar navbar-light navegation">
       <div>
-        <a class="navbar-brand">TasksOmbe</a>
+        <a class="navbar-brand">TasksOmbe<span class="badge badge-secondary ml-1">{{countTask}}</span></a>
       </div>
       <div class="row">
         <div class="info-user col-12">
@@ -36,7 +36,7 @@
   </div>
 </template>
 <script>
-
+import eventBus from '../../eventBus'
 
 export default {
     components:{
@@ -48,9 +48,15 @@ export default {
     data(){
         return{
             searchTask: '',
-            routerActual: ''
+            routerActual: '',
+            countTask: 0
         }
     }, 
+    created(){
+      eventBus.$on('countTask', (count)=>{
+        this.countTask = count
+      })
+    },
     methods: {
       proof(){
         console.log(this.$route)

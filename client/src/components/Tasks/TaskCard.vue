@@ -1,23 +1,23 @@
 <template>
     <div  :class="{'task--edit':updateTask}" @click="handleUpdateTaskClick">
         <div class="task-card card rounded mt-3" >
-             <input type="text" class="card-header"  v-model="title" :disabled="!updateTask">
+             <input type="text" class="card-header"  v-model="task.title" :disabled="!updateTask">
              <template v-if="updateTask">
-                <textarea name="" class="textatera--edit card-body"  v-model="description"></textarea> 
+                <textarea name="" class="textatera--edit card-body"  v-model="task.description"></textarea> 
              </template>
              <template v-else>
                 <div class="card-body" >
-                    <p >{{description}}</p>
+                    <p >{{task.description}}</p>
                 </div> 
              </template>   
             <div class="card-footer mt-2">
              <div class="card-footer--date">
-                <input  type="date" :min="dateNow" v-model="dateStart" :disabled="!updateTask" required/>
-                <input type="date" :min="dateNow" v-model="dateEnd" :disabled="!updateTask" required/>
+                <input  type="date" :min="dateNow" v-model="task.dateStart" :disabled="!updateTask" required/>
+                <input type="date" :min="dateNow" v-model="task.dateEnd" :disabled="!updateTask" required/>
 
              </div>
              <div class="card-footer--tag">
-                 <select name="" id="" v-model="tag" :disabled="!updateTask">
+                 <select name="" id="" v-model="task.tag" :disabled="!updateTask">
                      <option>Low</option>
                      <option>Medium</option>
                      <option>High</option>
@@ -30,47 +30,45 @@
     </div>
 </template>
 <script>
+
 export default {
     props:["task"],
     data(){
         return{
-            title:'Task empty',
-            description: '',
-            dateStart: new Date().toISOString().substr(0, 10),
-            dateEnd: new Date().toISOString().substr(0, 10),
-            tag: 'Low',
+            id: this.task.id,
             updateTask:false,
-            dateNow: ''
-            
+            dateNow: '',
         }
     },
+
     mounted() {
-        this.fillCardTask()
+        this.updateTask = this.task.updateTask == null ? false : true
         let date = new Date().toISOString().substr(0, 10);
         this.dateNow = date
     },
+    updated(){
+         if(this.task.id == 0){
+        this.updateTask = this.task.updateTask == null ? false : true
+         }
+    },
+ 
     methods: {
-        fillCardTask(){
-            this.title = this.task.title
-            this.description = this.task.description
-            this.dateStart = this.task.dateStart
-            this.dateEnd = this.task.dateEnd
-            this.tag = this.task.tag
-        },
-
         handleUpdateTaskClick(e){
              let element = e.toElement
             if(element.getAttribute('class') == 'task--edit'){
                 this.updateTask = false
+                if(this.task.id == 0){
+                   this.$emit("createTask")
+                 
+                }
             }else{
                 this.updateTask = true
+                
             }
             
         },
 
     },
-
-
 }
 </script>
 <style scoped>

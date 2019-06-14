@@ -8,9 +8,16 @@
             "dateEnd": "2019-06-03"
         },
         {
+            "title": "Learn process",
+            "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui ut pariatur neque at temporibus quae natus aliquid voluptates illo, nostrum magnam. Vel labore ea non quaerat similique dolorem veritatis voluptatem?Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui ut pariatur neque at temporibus quae natus aliquid voluptates illo, nostrum magnam. Vel labore ea non quaerat similique dolorem veritatis voluptatem?",
+            "tag": "Low",
+            "dateStart": "2019-06-02",
+            "dateEnd": "2019-06-03"
+        },
+        {
             "title": "Learn word process",
             "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-            "tag": "Low",
+            "tag": "Medium",
             "dateStart": "2019-06-02",
             "dateEnd": "2019-06-03"
         },

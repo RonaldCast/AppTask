@@ -1,8 +1,9 @@
 <template>
-  <div class="container mt-4">
+  <div class="container mt-4  container--task-panel">
       <div class="row">
-          <div class="col-md-3">
-            <div v-for="tasks in getAllTask[0]" v-bind:key="tasks.id">
+          <div class="col-md-3 display-flex">
+            
+          <div v-for="tasks in getAllTask[0]" v-bind:key="tasks.id">
                 <TaskCard :task="tasks" ></TaskCard> 
             </div>
           </div>
@@ -36,54 +37,57 @@ export default {
   props: ["listTask"],
   created(){
     eventBus.$on('filterTaskEvent', (search, tag) =>{
-     this.filterSearch = search
+    this.filterSearch = search
      this.filterTag = tag
     })
   },
   mounted(){
- 
+    setTimeout(()=>{
+       this.listAllArray =  this.listTask;
+    },)
+     
   },
   data() {
     return {
       listAllArray: [],
       filterSearch: '',
-      filterTag: '',
-      listFilterArray: []
+      filterTag: ''
     };
   },
-  methods: {
 
-  },
   computed: {
-    
       getAllTask() {
       let arrayGrid = [];
-      this.listAllArray =  this.listTask;
+      eventBus.$emit("countTask", this.listAllArray.length)
       let filterTask = this.listAllArray.filter(item => {
-          if(item.tag.includes(this.filterTag) && item.title.toUpperCase().includes(this.filterSearch.toUpperCase())){
-              return item
-          } 
+          
+              return   item.title.toUpperCase().includes(this.filterSearch.toUpperCase().trim()) && item.tag.includes(this.filterTag)
         })
-        // console.log(filterTask)
       let countArray = filterTask.length;
-      let divide = countArray / 4 ;
+      let divide = (countArray / 4) > 0 && divide <= 1 ? 1 : (countArray / 4) ;
       let startArray = 0
-      let endArray =  divide
+      let endArray =  divide 
 
       for(let i = 0; i < 4; i++){
         arrayGrid[i] = filterTask.slice(startArray, endArray);
         startArray = endArray;
-        console.log(arrayGrid[i]);
         endArray += divide 
-        
       }
-      console.log(arrayGrid);
-      return arrayGrid;
+  
+      return arrayGrid.reverse();
     }
+      
   },
+
 
 };
 </script>
 <style scoped>
-
+  .container--task-panel{
+      margin-bottom: 60px;
+  }
 </style>
+
+
+
+  

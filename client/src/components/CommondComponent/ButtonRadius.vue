@@ -1,8 +1,23 @@
 <template>
-    <div class="btn-add"> 
-        <span>+</span>
+    <div class="btn-add" @click="createTask"> 
+        <span >+</span>
     </div>
 </template>
+<script>
+
+export default {
+    data(){
+        return{
+
+        }
+    },
+    methods:{
+        createTask(){
+            this.$emit('createTask', true)
+        }
+    }
+}
+</script>
 <style scoped>
     .btn-add{
         background: #455A64;
