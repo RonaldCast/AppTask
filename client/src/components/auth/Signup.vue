@@ -5,8 +5,8 @@
 
             <div class="row">
                 <div class="col-md-10  rounded offset-md-1 container--img-form ">
-                    <div :class="[{'alert-danger':fialFormSend}, 'mt-3', 'alert', {'alert-success':successFormSend}]" v-show="message">
-                        messages
+                    <div class="alert-danger mt-3 alert" v-show="messageBool">
+                        {{message}}
                     </div>
                     <div class="row p-3 pb-4">
                         <div class="col-md-5">
@@ -20,21 +20,21 @@
                             <form @submit.prevent="submit" class="">
                                 <div class="row">
                                     <div class="col">
-                                        <input type="text" name="" id="" class="form-control" placeholder="Name">
+                                        <input type="text" name="" id="" class="form-control" placeholder="Name" v-model="userSignug.name">
                                     </div>
                                     <div class="col"> 
-                                        <input type="text" name="" id="" class="form-control" placeholder="Lastname">
+                                        <input type="text" name="" id="" class="form-control" placeholder="Lastname" v-model="userSignug.lastName">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <input type="email" class="form-control mt-3" placeholder="Email">
+                                    <input type="email" class="form-control mt-3" placeholder="Email" v-model="userSignug.email"> 
                                 </div>
                                 <div class="row">
                                     <div class="col">
-                                        <input type="password" name="" id="" class="form-control" placeholder="Password">
+                                        <input type="password" name="" id="" class="form-control" placeholder="Password" v-model="userSignug.password"> 
                                     </div>
                                     <div class="col"> 
-                                        <input type="password" name="" id="" class="form-control" placeholder="Confirm Password">
+                                        <input type="password" name="" id="" class="form-control" placeholder="Confirm Password" v-model="userSignug.passwordConfirm">
                                     </div>
                                 </div>
                                 <div class="text-center mt-3">
@@ -49,17 +49,20 @@
     </div>
 </template>
 <script>
+
+import axios from 'axios'
+
 export default {
     
     data(){
         return{
-            failFormSend :false,
-            successFormSend :false,
-            message : false,
+            messageBool : false,
+            message : '',
             userSignug : {
                 name : '',
                 email : '',
-                password : ''
+                password : '',
+                passwordConfirm : ''
             } 
 
         }
@@ -68,7 +71,60 @@ export default {
     methods: {
         submit(){
 
+            if(this.isValidInfo()){
+                axios({
+                    method: 'post',
+                    url:'http://localhost:3000/signup',
+                    data:{
+                        name : this.userSignug.name, 
+                        lastName : this.userSignug.lastName,
+                        email : this.userSignug.email,
+                        password : this.userSignug.password
+                    },
+                    headers:{
+
+                    }
+                })
+                .then((response) =>{
+                    this.$router.push("/signin")
+                })
+                .catch((error) =>{
+                    
+                    this.showMessage('The information is invalid')
+                })
+            }
+        },
+
+        isValidInfo(){
+            if(this.userSignug.name !== '' || this.userSignug.email !== '' ||
+             this.userSignug.password !== '' || this.userSignug.passwordConfirm !== ''){
+                if(this.userSignug.password == this.userSignug.passwordConfirm){
+
+                    if(this.userSignug.password.length > 8){
+                        return true
+                    }else{
+                        this.showMessage('the password must be greater than 8 characters')
+                        return false
+                    }
+                }
+                else{
+                    this.showMessage('the passwords are not similar')
+                    return false
+                }
+            }else{
+                this.showMessage('must fill all the fields')
+                return false
+            }
+        },
+        showMessage(message){
+            this.message  = message
+            this.messageBool = true
+            setTimeout(()=>{
+                 this.message = ''
+                 this.messageBool = false
+            },2200)
         }
+
     },
 }
 </script>
@@ -78,21 +134,4 @@ export default {
         box-shadow: 0px 0px 3px 0.5px #000;
     }
 
-
-
- /*name:{
-        type : String,
-    },
-    lastName:{
-        type : String 
-    },
-    email:{
-        type : String,
-        unique : true,
-        required: true
-    },
-    password:{
-        type : String,
-        required : true
-    }*/
 </style>

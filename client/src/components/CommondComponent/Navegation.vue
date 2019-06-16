@@ -22,11 +22,11 @@
               class="mt-3" 
               tag="li" 
               active-class="active">
-              <a>{{emailUser}}</a>
+              <a>{{user.email}}</a>
             </router-link>
             
             <li class="sign-off ml-2">
-              <a>Sign off</a>  
+              <a @click="signoff()">Sign off</a>  
             </li>
 
           </ul>
@@ -36,31 +36,51 @@
   </div>
 </template>
 <script>
+
 import eventBus from '../../eventBus'
+
+import axios from 'axios' 
 
 export default {
     components:{
       
     },
-    props:[
-        "emailUser"
-    ],
+
     data(){
         return{
             searchTask: '',
             routerActual: '',
-            countTask: 0
+            countTask: 0,
+            user: {}
         }
     }, 
     created(){
+
       eventBus.$on('countTask', (count)=>{
         this.countTask = count
       })
+      this.getEmail()
     },
     methods: {
-      proof(){
-        console.log(this.$route)
+
+      signoff(){
+        localStorage.removeItem('jwt')
+        this.$router.push('/signin')
+      },
+      getEmail(){
+        axios({
+          method : 'get',
+          url :  'http://localhost:3000/user',
+          headers : {
+            Authorization : localStorage.getItem('jwt')
+          }
+        })
+        .then((response) =>{
+          this.user = response.data.user
+        })
+        
       }
+
     },
 
 

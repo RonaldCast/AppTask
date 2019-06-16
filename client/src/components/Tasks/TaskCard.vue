@@ -1,9 +1,9 @@
 <template>
     <div  :class="{'task--edit':updateTask}" @click="handleUpdateTaskClick">
         <div class="task-card card rounded mt-3" >
-             <input type="text" class="card-header"  v-model="task.title" :disabled="!updateTask">
+             <input type="text" class="card-header"  v-model.trim="task.title" :disabled="!updateTask">
              <template v-if="updateTask">
-                <textarea name="" class="textatera--edit card-body"  v-model="task.description"></textarea> 
+                <textarea name="" class="textatera--edit card-body"  v-model.trim="task.description"></textarea> 
              </template>
              <template v-else>
                 <div class="card-body" >
@@ -12,8 +12,8 @@
              </template>   
             <div class="card-footer mt-2">
              <div class="card-footer--date">
-                <input  type="date" :min="dateNow" v-model="task.dateStart" :disabled="!updateTask" required/>
-                <input type="date" :min="dateNow" v-model="task.dateEnd" :disabled="!updateTask" required/>
+                <input  type="date" :min="dateNow"  v-model="dateStart" :disabled="!updateTask" required/>
+                <input type="date" :min="dateNow" v-model="dateEnd" :disabled="!updateTask" required/>
 
              </div>
              <div class="card-footer--tag">
@@ -22,7 +22,7 @@
                      <option>Medium</option>
                      <option>High</option>
                  </select>
-                 <span v-show="updateTask" class="fa fa-trash"></span>
+                 <span v-show="updateTask && task._id"  class="fa fa-trash" @click="deleteTask()"></span>
              </div>
 
             </div>
@@ -31,13 +31,17 @@
 </template>
 <script>
 
+import axios from 'axios'
+import eventBus from '../../eventBus'
+
 export default {
     props:["task"],
     data(){
         return{
-            id: this.task.id,
             updateTask:false,
             dateNow: '',
+            dateStart: new Date(this.task.dateStart).toISOString().substr(0, 10),
+            dateEnd : new Date(this.task.dateEnd).toISOString().substr(0, 10)
         }
     },
 
@@ -47,7 +51,7 @@ export default {
         this.dateNow = date
     },
     updated(){
-         if(this.task.id == 0){
+         if(this.task._id == 0){
         this.updateTask = this.task.updateTask == null ? false : true
          }
     },
@@ -56,19 +60,89 @@ export default {
         handleUpdateTaskClick(e){
              let element = e.toElement
             if(element.getAttribute('class') == 'task--edit'){
-                this.updateTask = false
-                if(this.task.id == 0){
+                
+                
+                if(this.task._id == 0){
                    this.$emit("createTask")
+
+                   axios({
+                       method: 'post',
+                       url: 'http://localhost:3000/task',
+                       data:{
+                            title: this.task.title,
+                            description:this.task.description,
+                            tag: this.task.tag,
+                            dateStart:this.dateStart,
+                            dateEnd: this.task.dateEnd
+                       },
+                       headers:{
+                           'Content-Type': 'application/json',
+                           Authorization : localStorage.getItem('jwt')
+                       }
+                   })
+                   .then((response) =>{
+                    //    console.log(response.data)
+                            eventBus.$emit('updateTaskList')
+                   })
+                   .catch((error) =>{
+                    //    console.log(error)
+                   })
+                   return;
                  
                 }
+                else if(this.task.title !== ''){
+                    axios({
+                        method: 'put',
+                        data: {
+                                title: this.task.title,
+                                description:this.task.description,
+                                tag: this.task.tag,
+                                 dateStart:this.dateStart,
+                                dateEnd: this.task.dateEnd
+                        },
+                        url: `http://localhost:3000/task/${this.task._id}`,
+                        headers:{
+                            'Content-Type': 'application/json',
+                            Authorization : localStorage.getItem('jwt')
+                        }
+
+                    })
+                    .then((response) => {
+                        this.updateTask = false
+                    })
+                    .catch((err) =>{
+                        console.log(err)
+                    })   
+                }
+                
             }else{
                 this.updateTask = true
                 
             }
-            
         },
 
-    },
+        deleteTask(){
+            if(confirm("Do you want to delete this task")){
+                axios({
+                method: 'delete',
+                url:`http://localhost:3000/task/${this.task._id}`,
+                headers:{
+                    'Content-Type' : 'application/json',
+                    Authorization : localStorage.getItem('jwt')
+                }
+
+            })
+            .then((response) => {
+                 eventBus.$emit('updateTaskList')
+                 this.updateTask = false
+            })
+            .catch((error) => {
+
+            })
+        }
+            }
+            
+    }
 }
 </script>
 <style scoped>

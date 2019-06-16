@@ -4,7 +4,6 @@
         <TaskPanel :listTask="fetchArray"></TaskPanel>
         <ButtonRadius @createTask="newTask()"></ButtonRadius>
         <TaskCard  v-show="createTask" :task="createdTask" @createTask="createTask = false"></TaskCard>
-    
     </div>
 </template>
 <script>
@@ -14,7 +13,8 @@ import NavPriority from '../CommondComponent/NavPriority'
 import TaskPanel from '../Tasks/TaskPanel'
 import TaskCard from '../Tasks/TaskCard'
 
-import TaskProof from '../../proof/task.json'
+import axios from 'axios'
+import eventBus from '../../eventBus'
 
 export default {
     components:{
@@ -28,7 +28,7 @@ export default {
             fetchArray: [], 
             createTask: false,
             createdTask: {
-                id:0,
+                _id:0,
                 title: "New Task",
                 description: "Description",
                 dateStart: new Date().toISOString().substr(0, 10),
@@ -38,17 +38,34 @@ export default {
             }
         }
     },
+    created(){
+         this.getAllTask(); 
+         eventBus.$on('updateTaskList',(d)=>{
+             this.getAllTask()
+         })
 
-    mounted() {
-        this.fetchArray = this.getAllTask()
     },
     methods:{
         getAllTask(){
-            return TaskProof.tasks
+
+
+            axios({
+                method: "get",
+                url: "http://localhost:3000/task",
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization : localStorage.getItem('jwt')
+                }
+            })
+            .then((response) =>{
+                this.fetchArray = response.data.tasks
+            }).catch((err) =>{
+                console.log(err)
+            })
         },
         newTask(bool){
-            this.createdTask ={
-                id:0,
+            this.createdTask = {
+                _id:0,
                 title: "New Task",
                 description: "Description",
                 dateStart: new Date().toISOString().substr(0, 10),
@@ -57,10 +74,8 @@ export default {
                 updateTask: false
             }
             this.createTask = true
-        
-
+    
         }   
-
 
     },
 }

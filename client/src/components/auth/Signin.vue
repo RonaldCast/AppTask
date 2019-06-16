@@ -8,10 +8,10 @@
                         <h4 class="font-weight-light font-size">Login</h4>
                     </div>
                     <div class="form-group  text-center">
-                        <input type="email" name="" id="" class="form-control col-10 offset-1" :value="email" placeholder="Email">
+                        <input type="email" class="form-control col-10 offset-1" v-model="email" placeholder="Email">
                     </div>
                     <div class="form-group text-center">
-                        <input type="password" name="" id="" class="form-control col-10  offset-1" :value="password" placeholder="password">
+                        <input type="password" class="form-control col-10  offset-1" v-model="password" placeholder="password">
                     </div>
                     <div class="text-center">
                         <button type="submit" class=" btn btn-primary  pl-4 pr-4">
@@ -20,7 +20,7 @@
                         <div class="mt-2 signup">
                             <p>New to TasksOmbe?</p>
                             <a class="" @click="pushSignup">Create account</a>
-                            
+                            <p class="text-danger">{{error}}</p>
                         </div>
                     </div>
                 </form>
@@ -30,16 +30,45 @@
 </template>
 
 <script>
+
+import axios from 'axios'
+
 export default {
     data(){
         return{
             email : '',
-            password : ''
+            password : '',
+            error: ''
         }
     },
     methods:{
         submit(){
-            alert("hello")
+            axios({
+                method: 'post',
+                data:{
+                    email : this.email,
+                    password : this.password
+                },
+                url: 'http://localhost:3000/login',
+                headers: {
+                    'Contect-Type': 'application/json'
+                }
+            })
+            .then((response)=>{
+                console.log(response.data.error)
+                if(response.data.error == true){
+                     this.error = response.data.message
+                     
+                }else{
+                    localStorage.setItem("jwt",`jwt ${response.data.token}`)
+                    this.$router.push('/')
+                  
+                }
+            
+            }).catch((err) =>{
+               this.error = err.message
+               console.log(err)
+            })
         },
         pushSignup(){
             this.$router.push('/signup')

@@ -21,7 +21,10 @@ router.post('/signup',
          try {
             if(err || !user){
                 const error = new Error('An Error ocurred')
-                return next(error)
+                return res.json({
+                  error: true,
+                  message: "The user is invalid",
+                });
             }
           
             req.login(user, {session : false}, async (error) => {
