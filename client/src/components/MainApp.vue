@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Navegation :emailUser="'ronaldcastillo@gmailcom'"></Navegation>
+        <Navegation></Navegation>
         <router-view></router-view>
     </div>
 </template>

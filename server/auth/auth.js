@@ -55,7 +55,6 @@ passport.use('login', new LocalStrategy({
     } catch (e) {
         return done(e)
     }
-    var user = await UserModel.findOne({email})
    
 }))
 

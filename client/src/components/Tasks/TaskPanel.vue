@@ -37,19 +37,13 @@ export default {
   props: ["listTask"],
   created(){
     eventBus.$on('filterTaskEvent', (search, tag) =>{
-    this.filterSearch = search
-     this.filterTag = tag
+      this.filterSearch = search
+      this.filterTag = tag
     })
   },
-  mounted(){
-    setTimeout(()=>{
-       this.listAllArray =  this.listTask;
-    },)
-     
-  },
+
   data() {
     return {
-      listAllArray: [],
       filterSearch: '',
       filterTag: ''
     };
@@ -58,8 +52,8 @@ export default {
   computed: {
       getAllTask() {
       let arrayGrid = [];
-      eventBus.$emit("countTask", this.listAllArray.length)
-      let filterTask = this.listAllArray.filter(item => {
+      eventBus.$emit("countTask", this.listTask.length)
+      let filterTask = this.listTask.filter(item => {
           
               return   item.title.toUpperCase().includes(this.filterSearch.toUpperCase().trim()) && item.tag.includes(this.filterTag)
         })

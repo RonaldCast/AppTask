@@ -7,16 +7,17 @@
                        <img class="img-fluid" src="../../assets/user.png" alt="user">
                    </div>
                    <div class="info-user text-center">
-                       <p>Ronald Castillo</p>
-                       <p>ronaldcastillo789@gmail.com</p>
+                       <p>{{userInfo.name}} {{userInfo.lastName}}</p>
+                       <p>{{userInfo.email}}</p>
                    </div>
                     <form class="form-update-info" action="" @submit.prevent="updatedProfile()">
                         <p>Update information</p>
+                        <p :class="[{'text-danger':error}, {'text-success':error == false}]">{{message}}</p>
                             <div class="form-group">
-                                <input class="form-control" type="text" v-model="name" placeholder="Name" required>
+                                <input class="form-control" type="text" v-model.trim="name" placeholder="Name" >
                             </div>
                             <div class="form-group">
-                                <input class="form-control" type="text" v-model="lastName" placeholder="Lastname" required>
+                                <input class="form-control" type="text" v-model.trim="lastName" placeholder="Lastname" >
                             </div>
                             <div class="text-center">
                                 <button type="submit" class="btn btn-success mr-2" >Update data</button>
@@ -30,17 +31,76 @@
     </div>
 </template>
 <script>
+
+import axios from 'axios'
+
 export default {
     props:["user"],
     data(){
         return{
             name : '',
-            lastName : ''
+            lastName : '',
+            message: '',
+            userInfo: {},
+            error:false
         }
+    },
+    created(){
+        this.loadData()
     },
     methods: {
         updatedProfile(){
-            console.log("update")
+            if(this.name !=='' && this.lastName !== ''){
+                axios({
+                    method: 'put',
+                    url:'http://localhost:3000/user',
+                    data:{
+                        name: this.name,
+                        lastName: this.lastName
+                    },
+                    headers:{
+                        'Content-Type' : 'application/json',
+                        Authorization : localStorage.getItem('jwt')
+                    }
+                })
+                .then((response) => {
+                    this.loadData()
+                    this.showMessage(response.data.message, false)
+                    this.name =''
+                    this.lastName =''
+                })
+                .catch((error) =>{
+                     this.showMessage(response.data.message, true)
+                })
+
+            }
+            else{
+                this.showMessage('must complete the fields', true)
+            }
+        },
+
+        showMessage(message,error){
+            this.error = error
+            this.message = message
+            setTimeout(()=>{
+                this.message = ''
+            },2000)
+        },
+
+        loadData(){
+            axios({
+                method: 'get',
+                url: 'http://localhost:3000/user',
+                headers:{
+                    Authorization : localStorage.getItem('jwt')
+                }
+            })
+            .then((response) =>{
+                this.userInfo = response.data.user
+            })
+            .catch((error) => {
+
+            })
         },
         cleanInput(){
             this.name = '',
@@ -50,7 +110,7 @@ export default {
 }
 </script>
 <style scoped>
-    .info-user p{
+    .info-user p:first-child{
         font-weight: 500;
     } 
     .info-user p:first-child{
@@ -61,7 +121,7 @@ export default {
        margin-top: -20px;
        color:rgba(33, 152, 196, 0.748)
     }
-    .form-update-info p{
+    .form-update-info p:first-child{
         font-weight: 500;
         border-bottom: 2px solid black;
         padding-bottom: 5px;
